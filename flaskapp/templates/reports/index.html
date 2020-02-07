@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Reports{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% for report in reports %}
+<article class="post clearfix" id="post-{{report['id']}}">
+  <table>
+    <tr>
+      <td>Id: {{ report['doc_id'] }}</td>
+      <td>Type: {{ report['report_type'] }}</td>
+      <td rowspan="3">
+        <div class="buttons">
+          <form action="{{ url_for('reports.block', id=report['id']) }}" method="post">
+            <input class="action" type="submit" value="Block">
+          </form>
+          <form>
+            <input class="action resolve" data-id="{{report['id']}}" type="button" value="Resolve">
+          </form>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>State: {{ report['state'] }}</td>
+      <td>Message: {{ report['message'] }}</td>
+    </tr>
+    <tr>
+      <td><a href="/">Details</a></td>
+    </tr>
+  </table>
+</article>
+{% endfor %}
+{% endblock %}
+
+{% block script %}
+<script>
+  // NOTE: HTML forms do not support PUT, therefore this JavaScript solution is used.
+  var resolve_buttons = document.querySelectorAll(".resolve");
+  console.log(resolve_buttons);
+  for (i = 0; i < resolve_buttons.length; i++) {
+    resolve_buttons[i].addEventListener("click", function () {
+      const xhr = new XMLHttpRequest();
+      const url = `/resolve/${this.dataset.id}`;
+      console.log(url);
+      xhr.open("PUT", url);
+      xhr.send();
+
+      xhr.onreadystatechange = (e) => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          document.getElementById(`post-${this.dataset.id}`).remove();
+        }
+      }
+
+    });
+  }
+</script>
+{% endblock %}

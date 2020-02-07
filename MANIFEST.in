@@ -1,0 +1,6 @@
+include flaskapp/schema.sql
+graft flaskapp/static
+graft flaskapp/templates
+graft flaskapp/data
+graft tests
+global-exclude *.pyc

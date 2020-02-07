@@ -1,0 +1,9 @@
+name: flaskapp
+dependencies:
+  - python=3.7
+  - pip
+  - pip:
+     - flask
+     - black
+     - pytest
+     - coverage

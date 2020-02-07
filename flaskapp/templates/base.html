@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>SPAM Report Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <section class="content">
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+        {% block content %}{% endblock %}
+    </section>
+    {% block script %}{% endblock %}
+</body>
+
+</html>
